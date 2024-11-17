@@ -1,20 +1,19 @@
 data, track_raw = open("2.txt").read().split("\n\n")
 arr = [(ch, ops.split(",")) for line in data.strip().splitlines() for ch, ops in [line.split(":")]]
-track_raw = track_raw.strip().split('\n')
+s = track_raw.strip().split('\n')
 
-track = ''
-for i, row in enumerate(track_raw):
-    if i == 0:
-        track += row[1:]
-    elif i == len(track_raw) - 1:
-        track += row[::-1]
-    else:
-        track += row[-1]
-
-for i, row in enumerate(track_raw):
-    if 0 < i < len(track_raw) - 1:
-        track += row[0]
-track += '='
+valid = {(r, c) for r in range(len(s)) for c in range(len(s[r])) if s[r][c] != " "}
+Q, seen = [(0, 1)], {(0, 0)}
+track = ""
+while Q:
+    r, c = Q.pop()
+    if ((r, c)) in seen: continue
+    seen.add((r, c))
+    track += s[r][c]
+    for dr, dc in [(0, 1), (0, -1), (1, 0), (-1 ,0)]:
+        if (r+dr, c+dc) in valid:
+            Q.append((r+dr, c+dc))
+track += "="
 
 ans = dict()
 for ch, ops in arr:
