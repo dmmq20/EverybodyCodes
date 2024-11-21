@@ -24,7 +24,8 @@ def dijkstra(start, end, maze):
                 dists[(rr, cc)] = new_cost
     return None
 
-def parse(maze):
+def parse(f):
+    maze = [list(row) for row in open(f).read().splitlines()]
     start, end = [], []
     for r in range(len(maze)):
         for c in range(len(maze[r])):
@@ -32,21 +33,18 @@ def parse(maze):
             if maze[r][c] == "S": start.append((r, c))
             if maze[r][c] == "E": end.append((r, c))
             maze[r][c] = 0
-    return start, end
+    return start, end, maze
 
 def solve1():
-    maze = [list(row) for row in open("1.txt").read().splitlines()]
-    start, end = parse(maze)
+    start, end, maze = parse("1.txt")
     return dijkstra(start[0], end, maze)
 
 def solve2():
-    maze = [list(row) for row in open("2.txt").read().splitlines()]
-    start, end = parse(maze)
+    start, end, maze = parse("2.txt")
     return dijkstra(start[0], end, maze)
 
 def solve3():
-    maze = [list(row) for row in open("3.txt").read().splitlines()]
-    start, end = parse(maze)
+    start, end, maze = parse("3.txt")
     return dijkstra(end[0], start, maze)
     
 print(solve1(), solve2(), solve3())
