@@ -16,14 +16,14 @@ def prims(stars, max_dist=None):
         dist, (r, c) = heapq.heappop(pq)
         if (r, c) in seen:
             continue
-        seen.add((r,c ))
+        seen.add((r, c))
         ans += dist
-        for star in stars:
-            if star in seen:
+        for dr, dc in stars:
+            if (dr, dc) in seen:
                 continue
-            dist = abs(star[0] - r) + abs(star[1] - c)
+            dist = abs(dr - r) + abs(dc - c)
             if not max_dist or dist < max_dist:
-                heapq.heappush(pq, (dist, star))
+                heapq.heappush(pq, (dist, (dr, dc)))
     stars -= seen
     return ans + len(seen)
 
